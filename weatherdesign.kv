@@ -1,0 +1,137 @@
+# importing tooltip
+<TooltipMDLabel@MDLabel+MDTooltip>
+
+# RootWidget
+RootWidget:
+    SplashScreen:
+    WeatherScreen
+
+
+# For Splash Screen
+<SplashScreen>:
+    name: 'Splash'  # name is required
+    Image:
+        source: 'assets/splashscreen.gif'
+        allow_stretch: True
+        anim_delay: 0.05
+        anim_reset: True
+
+
+# For Main Page
+<WeatherScreen>:
+    name: 'weather'
+    Image:
+        id: bg_image
+        source: 'assets/bg_default.jpg'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        size_hint: (3, 5)
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(5)
+        padding: dp(25), dp(0), dp(25), dp(20)
+
+        MDGridLayout:
+            cols: 3
+            size_hint_y: 0.2
+            adaptive_height: True
+            # pos_hint: {'center_x': 0.11,}
+
+            MDLabel:
+                id: location_label
+                text: 'Tashkent'
+                halign: 'left'
+                width: dp(10)
+                font_style: "H4"
+                theme_text_color: "Primary"
+                size_hint_y: 0.1
+                # padding: dp(135), dp(0), dp(0), dp(0)
+
+            Image:
+                id: location_icn
+                source: 'assets/icon/location.png'
+                size_hint: (0.11, 0.11)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            Image:
+                id: settings_icn
+                source: 'assets/icon/settings.png'
+                size_hint: (0.1, 0.1)
+                pos_hint: {'center_x': -2, 'center_y': -2}
+
+
+        Image:
+            id: weather_icon
+            source: "assets/icon/sun_icon.png"
+            size_hint_y: 0.7
+            pos_hint: {'center_x': 0.5}
+
+        GridLayout:
+            cols: 4
+            spacing: dp(5)
+            padding: dp(5)
+            size_hint_y: 0.4
+            adaptive_height: True
+
+            Image:
+                source: "assets/icon/small/sun.png"
+                size_hint_y: 0.5
+                pos_hint: {'center_x': 0.5}
+
+
+            MDLabel:
+                id: temperature_label
+                font_style: "H4"
+                text: '35°'
+                halign: "left"
+                theme_text_color: "Primary"
+
+            Image:
+                source: "assets/icon/small/wind.png"
+                size_hint: (2.2, 2.2)
+                pos_hint: {'center_x': 0.5}
+
+            MDLabel:
+                id: wind_label
+                text: '44 km/h'
+                halign: "left"
+                theme_text_color: "Primary"
+
+
+            Image:
+                source: "assets/icon/small/rainxsnow.png"
+                size_hint: (0.5, 0.5)
+                pos_hint: {'center_x': 0.5}
+
+            MDLabel:
+                id: rain_label
+                text: '5%'
+                halign: "left"
+                theme_text_color: "Primary"
+
+            Image:
+                source: "assets/icon/small/description.png"
+                size_hint: (0.5, 0.5)
+                pos_hint: {'center_x': 0.5}
+
+            TooltipMDLabel:
+                id: description_label
+                text: 'Desc'
+                halign: "left"
+                theme_text_color: "Primary"
+                tooltip_text: 'Hello I am here I am tooltip'
+
+        MDTextField:
+            id: city_input
+            hint_text: "Enter city name"
+            helper_text: "Press Enter or click 'Search' to get weather"
+            helper_text_mode: "on_focus"
+            size_hint_y: None
+            height: dp(40)
+            on_text_validate: app.get_weather_by_city(self.text)
+
+        MDRectangleFlatButton:
+            text: "Search"
+            on_release: app.get_weather_by_city(city_input.text)
+            pos_hint: {'center_x': 0.5}
+
